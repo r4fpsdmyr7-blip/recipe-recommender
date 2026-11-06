@@ -1,0 +1,50 @@
+{
+  "fixture_id": "FIX-GLOBAL-AVG-F-01",
+  "schema_version": "0.1.0-fixture",
+  "fictional": true,
+  "notice": "完全虚构的合成数据，不代表任何真实个人，亦非任何统计资料的引用或计算结果。全球平均量级仅用于演示与 ATDD 验收。禁止填入真实身体数据。",
+  "notice_en": "Entirely fictional synthetic data. It does not represent any real person and is not a citation or computation of any statistical source. Global-average magnitude is for demonstration and ATDD fixtures only. Never enter real body data here.",
+  "usage": "ATDD Given fixture for AC-15 / AC-16 / AC-18; demo profile exercising user override and the Latin locale. Not medical or nutritional advice.",
+  "label_key": "profile.global_average_female",
+  "body": {
+    "height_cm": 156.0,
+    "weight_kg": 55.0,
+    "bmi": 22.6,
+    "body_fat_pct": 28.0,
+    "water_pct": 51.0,
+    "bmr_kcal": 1200,
+    "muscle_kg": 37.0,
+    "bone_kg": 2.1,
+    "protein_pct": 18.5,
+    "age_years": 30,
+    "sex": "female"
+  },
+  "nutrition_rx": {
+    "energy_kcal": [1300, 1450],
+    "protein_g": [72, 85],
+    "fat_g": [40, 48],
+    "carb_g": [155, 180],
+    "fiber_g": [25, 30],
+    "water_ml": [1700, 2000],
+    "floor_rule": "energy_kcal.min >= body.bmr_kcal"
+  },
+  "goal": {
+    "type": "maintain",
+    "note_key": "goal.maintain.fictional"
+  },
+  "locale_policy": {
+    "declared_nationality": null,
+    "declared_residence": null,
+    "guideline_override": "CDG-2022",
+    "calendar_override": "solar-terms",
+    "output_language": "la",
+    "expected_resolution": "user-override:CDG-2022 + solar-terms + la",
+    "expected_source": "user"
+  },
+  "privacy": {
+    "storage": "local-only",
+    "upload": false,
+    "telemetry": false,
+    "real_person_data": false
+  }
+}

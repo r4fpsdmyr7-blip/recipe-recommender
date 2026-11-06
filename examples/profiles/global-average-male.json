@@ -1,0 +1,50 @@
+{
+  "fixture_id": "FIX-GLOBAL-AVG-M-01",
+  "schema_version": "0.1.0-fixture",
+  "fictional": true,
+  "notice": "完全虚构的合成数据，不代表任何真实个人，亦非任何统计资料的引用或计算结果。全球平均量级仅用于演示与 ATDD 验收。禁止填入真实身体数据。",
+  "notice_en": "Entirely fictional synthetic data. It does not represent any real person and is not a citation or computation of any statistical source. Global-average magnitude is for demonstration and ATDD fixtures only. Never enter real body data here.",
+  "usage": "ATDD Given fixture for AC-01 / AC-15 / AC-16; demo profile. Not medical or nutritional advice.",
+  "label_key": "profile.global_average_male",
+  "body": {
+    "height_cm": 168.0,
+    "weight_kg": 65.0,
+    "bmi": 23.0,
+    "body_fat_pct": 20.0,
+    "water_pct": 56.0,
+    "bmr_kcal": 1450,
+    "muscle_kg": 49.0,
+    "bone_kg": 2.6,
+    "protein_pct": 19.5,
+    "age_years": 30,
+    "sex": "male"
+  },
+  "nutrition_rx": {
+    "energy_kcal": [1550, 1700],
+    "protein_g": [88, 100],
+    "fat_g": [48, 56],
+    "carb_g": [185, 215],
+    "fiber_g": [25, 30],
+    "water_ml": [1800, 2200],
+    "floor_rule": "energy_kcal.min >= body.bmr_kcal"
+  },
+  "goal": {
+    "type": "maintain",
+    "note_key": "goal.maintain.fictional"
+  },
+  "locale_policy": {
+    "declared_nationality": null,
+    "declared_residence": null,
+    "guideline_override": null,
+    "calendar_override": null,
+    "output_language": "en",
+    "expected_resolution": "fallback:generic-guideline + gregorian-season",
+    "expected_source": "auto:fallback"
+  },
+  "privacy": {
+    "storage": "local-only",
+    "upload": false,
+    "telemetry": false,
+    "real_person_data": false
+  }
+}

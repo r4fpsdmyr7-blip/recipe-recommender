@@ -1,0 +1,10 @@
+# 统一 LF 行尾，保证跨平台与 GitHub diff 一致
+* text=auto eol=lf
+
+*.md   text eol=lf
+*.json text eol=lf
+*.yml  text eol=lf
+*.yaml text eol=lf
+
+# 纯文本许可证不作转换差异
+LICENSE text eol=lf
