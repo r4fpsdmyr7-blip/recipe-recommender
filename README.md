@@ -11,10 +11,11 @@
 
 | 项 | 当前 |
 |----|------|
-| 阶段 | SDD **M1（Constitution + Plan）已产出，待审查**；Clarify 全部关闭 |
-| 规格 | [`SPEC.md`](SPEC.md) `v0.3.0-draft` |
-| 实现 | ⏸ **尚未开始**（M2 `tasks.md` 之后才进入 Implement） |
-| 实现语言 | **ECMAScript / ISO/IEC 22275:2018**（纯 ESM JavaScript + Node 20 LTS+），见 [ADR-002](docs/decisions.md) |
+| 阶段 | SDD **M1 已审查通过 → M2 `tasks.md` 已产出**；Clarify 全部关闭（CL-01～CL-06、CL-08～CL-11） |
+| 规格 | [`SPEC.md`](SPEC.md) `v0.4.0-draft` |
+| 实现 | ⏸ **尚未开始**（M3 Implement 才写 `src/` 代码） |
+| 任务分解 | [`tasks.md`](tasks.md)（M2，按 Phase 分组、依赖与红→绿顺序） |
+| 实现语言 | **ECMAScript / ISO/IEC 22275:2018**（纯 ESM JavaScript + Node 20 LTS+），见 [ADR-002](docs/decisions.md)；语言策略见 [ADR-003](docs/decisions.md) |
 | 许可 | **GPL-3.0**（[`LICENSE`](LICENSE) 已随仓库分发） |
 | 代码状态 | 本仓库当前仅含规格、调研、章程、方案与文档，**不包含可运行程序** |
 
@@ -55,13 +56,19 @@
 
 > 选型理由、ISO 标准状态核对（含已撤销的 16262:2011 / 23270:2018）、C++ 备选与回退条件见 [`docs/decisions.md` ADR-002](docs/decisions.md) 与 [`plan.md`](plan.md)。规格层只固化语言无关的约束（NFR-015 / P-16 / AC-19）。
 
+**语言策略（ADR-003 / 方案 A）**：v1 维持**单一**主实现语言；「多语言」由外部语言包与可替换渲染器承载，不引入第二实现语言。未来若确有可举证的能力缺口，须通过 ADR-003 的 **G-01～G-06 准入门禁**（现行标准白名单、基准举证、stdio/JSON 边界、Corresponding Source、CI 矩阵、用户书面确认），且 v1 **默认关闭**。ISO 及 GB 现行语言清单、标准状态核实与取舍理由见 [`docs/decisions.md` ADR-003 §4](docs/decisions.md)。
+
 ## 输出语言
 
 输出语言**由用户指定**，与实现语言、内部表示完全解耦。v1 内置语言包：
 
 `zh-Hans`（简体中文）· `en` · `fr` · `de` · `es` · `ru` · **`la`（拉丁语）**
 
-规则引擎只处理与自然语言无关的 Canonical ID；所有面向人的字符串来自外部语言包，**不依赖在线翻译或 LLM**。缺失语言包按回退链输出并显式标注，不会静默混排。
+规则引擎只处理与自然语言无关的 Canonical ID；所有面向人的字符串来自外部语言包，**运行期不依赖在线翻译或 LLM**。缺失语言包按回退链输出并显式标注，不会静默混排。
+
+- **体积**：语言包是纯键值数据，7 语言约 **0.42 MiB**（gzip ≈151 KiB）；真正会撑大发布物的是随包附带翻译模型（数百 MiB），本项目不引入。中文输出满足 **GB 18030-2022 实现级别 1** 字符覆盖要求（落盘仍统一 UTF-8）。
+- **LLM 边界**：仅允许贡献者在**开发期**用 LLM 生成新语言包的候选译文，经人工审校后作为静态数据入库（标注来源与审校者）；运行期不调用任何翻译服务，也不向外部发送身体数据或计划内容。
+- **插件宿主**：可提供 locale 提示与渲染能力，但只能作为**用户可覆盖的默认候选**；核心 CLI 必须能脱离宿主独立运行。
 
 ## 依赖边界
 
@@ -88,14 +95,15 @@
 ```
 recipe-recommender/
 ├── SPEC.md                        SDD · Specify 阶段规格（唯一权威）
-├── constitution.md                SDD · 不可协商原则 P-01～P-16
+├── constitution.md                SDD · 不可协商原则 P-01～P-16（已基线化）
 ├── plan.md                        SDD · 技术选型 / 架构 / 接口契约（不含实现代码）
+├── tasks.md                       SDD · M2 任务分解（依赖 / 并行 / 追溯）
 ├── LICENSE                        GPL-3.0 全文
 ├── .gitignore / .gitattributes    个人数据 / 缓存 / 构建产物排除；LF 行尾
 ├── README.md                      本文件
 ├── docs/
 │   ├── competitive-research.md    竞品调研（16 条来源）
-│   └── decisions.md               决策记录 + ADR-002（实现语言）
+│   └── decisions.md               决策记录 + ADR-002（实现语言）+ ADR-003（语言策略）
 └── examples/profiles/             两份完全虚构的示例档案（ATDD fixtures）
 ```
 
@@ -107,7 +115,7 @@ GitHub 社区规范全套文件（`CONTRIBUTING.md`、`CODE_OF_CONDUCT.md`、`SE
 
 `Constitution → Specify → Plan → Tasks → Implement → Converge`
 
-当前进度：`Constitution` ✅ → `Specify` ✅ → `Clarify` ✅ → **`Plan` ✅（待审查）** → `Tasks` ⏸ → `Implement` ⏸ → `Converge` ⏸。
+当前进度：`Constitution` ✅ → `Specify` ✅ → `Clarify` ✅ → `Plan` ✅ → **`Tasks` ✅（M2 已产出）** → `Implement` ⏸ → `Converge` ⏸。
 
 `SPEC.md` §8 的 Given/When/Then 场景是**实现前就必须存在且为红**的验收契约；任何行为变更先改规格，再改实现。
 
@@ -117,4 +125,4 @@ GitHub 社区规范全套文件（`CONTRIBUTING.md`、`CODE_OF_CONDUCT.md`、`SE
 
 ---
 
-> [AIGC] 立项文件由 AI 依据用户 2026-11-06 决策与当日联网核实结果生成 · 审计追踪 ID：`RR-CHARTER-20261106-0002` · M1 版本
+> [AIGC] 立项文件由 AI 依据用户 2026-11-06 决策与当日联网核实结果生成 · 审计追踪 ID：`RR-CHARTER-20261106-0002` · M2 版本（方案 A / ADR-003）

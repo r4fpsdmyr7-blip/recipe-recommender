@@ -1,7 +1,7 @@
 # plan.md · 技术方案（SDD · Plan 阶段）
 
-> **项目**：recipe-recommender　|　**版本**：`v1.0.0-draft`　|　**日期**：2026-11-06
-> **状态**：🟡 **已产出，待用户审查**（M1 审查点）　|　**上游**：[`SPEC.md`](SPEC.md) `v0.3.0-draft`、[`constitution.md`](constitution.md) `v1.0.0-draft`、[`docs/decisions.md`](docs/decisions.md) ADR-002、[`docs/competitive-research.md`](docs/competitive-research.md)
+> **项目**：recipe-recommender　|　**版本**：`v1.0.0`（基线）　|　**日期**：2026-11-06
+> **状态**：✅ **已由用户审查通过并基线化**（2026-11-06，选方案 A 并授权 M2）　|　**上游**：[`SPEC.md`](SPEC.md) `v0.4.0-draft`、[`constitution.md`](constitution.md) `v1.0.0`、[`docs/decisions.md`](docs/decisions.md) ADR-002 / ADR-003、[`docs/competitive-research.md`](docs/competitive-research.md)
 > **下游**：`tasks.md`（M2）→ 实现 + 测试 + 社区规范（M3/M4）→ Converge 报告（M5）
 
 ---
@@ -13,7 +13,7 @@
 | 输入约束 | FR-001～053、AC-01～19、NFR-001～015、SC-001～015、P-01～P-16（**不在此重复**） |
 | 本文件回答 | 用什么技术、如何分层、目录与数据契约、接口长什么样、怎样测试与门禁、里程碑如何对应验收 |
 | 本文件不回答 | 新增功能、修改验收标准、写实现代码、拆任务（`tasks.md`）、生成社区规范文件（M4） |
-| 决策依据 | CL-02 已关闭：机械语言否决 → **ECMAScript / ISO/IEC 22275:2018**（ADR-002）。本文件只把该决策展开为可实施结构，不改写任何 FR / AC / SC |
+| 决策依据 | CL-02 已关闭：机械语言否决 → **ECMAScript / ISO/IEC 22275:2018**（ADR-002）；CL-11 已关闭（方案 A）：**维持单一主实现语言**，多语言落在语言包与可替换渲染器，第二实现语言须过 G-01～G-06 门禁（ADR-003）。本文件只把决策展开为可实施结构，不改写任何 FR / AC / SC |
 
 > **P-04 边界**：本文件出现的所有模块名、命令名、字段名均为**接口契约**，不是实现；具体代码在 M3 产出。规格若需变更，必须先改 `SPEC.md`。
 
@@ -30,7 +30,7 @@
 | **运行时** | **Node.js 20 LTS 及以上**（Windows / macOS / Linux） | NFR-004；内置 `node:fs`、`node:path`、`node:test`、`node:assert`、`Intl` |
 | **核心依赖** | **零运行时第三方依赖**（仅 Node 内置模块） | NFR-001 离线优先、NFR-008 供应链安全、FR-051 不依赖 LLM |
 | **MCP 适配** | 官方 Tier 1 SDK `@modelcontextprotocol/sdk` + **stdio transport**；作为**可选安装**能力，许可在 M4 审计 | FR-030 / CL-01；ADR-002 §3.5 |
-| **i18n** | 本地 `locales/<BCP47>/` 语言包（JSON 键值）+ `Intl`（ECMA-402）仅做日期 / 数字 / 单位格式化 | FR-040～044 / P-11；**不调用在线翻译 / LLM** |
+| **i18n** | 本地 `locales/<BCP47>/` 语言包（JSON 键值）+ `Intl`（ECMA-402）仅做日期 / 数字 / 单位格式化 | FR-040～044 / P-11；**运行期不调用在线翻译 / LLM**；开发期候选译文经人工审校入库（FR-041 补注 / ADR-003 §4.6）；中文输出满足 GB 18030-2022 级别 1（FR-043） |
 | **测试** | `node:test` + `node:assert`，零第三方测试框架；AC 场景文件逐一可执行 | P-02 / FR-038 / NFR-005 |
 | **静态检查** | JSDoc + `tsc --allowJs --checkJs --noEmit`（**可选开发期工具**）+ 严格 lint | 缓解纯 JS 无编译期类型；不改变实现语言 |
 | **Markdown 渲染** | 自研纯函数渲染器（表格 + 头部元数据），无模板引擎依赖 | FR-006 / NFR-006 / 可 diff |
@@ -319,8 +319,10 @@ flowchart LR
 | `license-scan` | GPL-3.0 + THIRD_PARTY_NOTICES + Corresponding Source | P-07, P-16 |
 | `community-files` | `SPEC.md §10` 必需文件存在且非空 | P-09, FR-036 |
 | `matrix` | 三 OS × 三 Node 版本跑同一组 AC | NFR-004, SC-015 |
+| `polyglot-gate` | 第二实现语言准入 G-01～G-06（**默认关闭**，v1 恒为拒绝；仅登记不执行） | P-16, NFR-015, A-10, E-18, ADR-003 §4.4 |
+| `encoding-check` | 中文输出汉字在 GB 18030-2022 实现级别 1 覆盖范围内 | FR-043, AC-15 |
 
-> 门禁从 M3 起逐步启用；M0′ 已运行的「真实身体数据令牌扫描」纳入 `privacy-scan`。
+> 门禁从 M3 起逐步启用；M0′ 已运行的「真实身体数据令牌扫描」纳入 `privacy-scan`。`polyglot-gate` 为预留门禁（G-06 默认拒绝），M4 起仅登记检查结果，不引入任何第二实现语言工具链。
 
 ---
 
@@ -328,9 +330,9 @@ flowchart LR
 
 | M | 交付 | 出口条件（引用，不重写） |
 |---|------|--------------------------|
-| **M0′ / M0** ✅ | Git 立项、`SPEC.md v0.3.0-draft`、ADR-002、澄清全关闭 | 已完成，2026-11-06 |
-| **M1** ✅ 待审查 | `constitution.md`、`plan.md`（本文件） | 用户审查通过（P-09 / P-10） |
-| **M2** ⏸ | `tasks.md`：有序任务，每条关联 FR / AC，标注依赖与红→绿顺序 | M1 审查通过 |
+| **M0′ / M0** ✅ | Git 立项、`SPEC.md v0.4.0-draft`、ADR-002 / ADR-003、澄清全关闭 | 已完成，2026-11-06 |
+| **M1** ✅ 已审查通过 | `constitution.md`、`plan.md`（本文件） | 用户审查通过并选方案 A（P-09 / P-10，2026-11-06） |
+| **M2** ✅ 已产出 | `tasks.md`：有序任务，每条关联 FR / AC / SC，标注依赖、并行与红→绿顺序 | M1 审查通过；无实现代码 |
 | **M3** ⏸ | 核心域 + CLI + P1 用户故事实现 + AC-01～12 转绿 | US-01～05 对应 FR 通过、CI 绿 |
 | **M4** ⏸ | MCP Server、i18n 七语言、区域策略、社区规范全套、PRIVACY / SECURITY / THIRD_PARTY_NOTICES | 全部 FR 通过、AC-13～19 转绿、§10 必需文件齐备 |
 | **M5** ⏸ | Converge 报告 + Release 归档 + 校验和 | SC-001～SC-015 全部达成、追溯矩阵核验通过 |
@@ -348,18 +350,19 @@ flowchart LR
 | R-05 | 用户需预装 Node 20+ 而 v1 不发包管理器 | README 安装说明 + Release 附源码与校验和；核心 CLI 零依赖可用（SC-009 ≤3 步） |
 | R-06 | 七语言（含拉丁语）术语质量 | 语言包由人工审校，缺失术语「译名 + 学名/原文」并列；不因翻译改变数值（FR-043） |
 | R-07 | 时区 / 交节当日归属等边界 | 沿用 E-01 / E-02 与 `_feedback.md` 待采纳提案，由上级周期任务裁定 |
-| R-08 | AI 生成物的基线化 | 所有 `[AIGC]` 工件（含本文件）须用户人工审查后方可作为基线（P-10） |
+| R-08 | AI 生成物的基线化 | 所有 `[AIGC]` 工件（含本文件）须用户人工审查后方可作为基线（P-10）；M1 工件已于 2026-11-06 基线化 |
+| R-09 | 未来被要求引入第二实现语言 / 使用无现行 ISO 或 GB 标准的语言 | 按 ADR-003 G-01～G-06 门禁处理，默认拒绝并维持单语言；通过后新增 ADR 并重做本文件，不改 FR / AC / SC（A-10 / E-18） |
 
 ---
 
 ## 14. 本阶段明确不做
 
 - ❌ 不写任何 `src/` 实现代码、不写测试实现、不写语言包内容（M3/M4）。
-- ❌ 不产出 `tasks.md`（M2）、不生成 `SPEC.md §10` 的社区规范文件（M4）。
+- ❌ 不生成 `SPEC.md §10` 的社区规范文件（M4）；`tasks.md` 已由 **M2** 单独产出，不属于 Plan 工件。
 - ❌ 不创建 GitHub 远程仓库、不推送、不发布 Release、不运行 `npm publish`。
 - ❌ 不把 `../diet-plan/` 的任何真实数据带入本仓库。
 - ❌ 不因技术选型改动任何 FR / AC / SC 的业务语义。
 
 ---
 
-> [AIGC] 本方案由 AI 依据 `SPEC.md v0.3.0-draft`、ADR-002 与 2026-11-06 联网核实的标准状态生成，**待用户人工审查后方可作为基线**（P-10） · 审计追踪 ID：`RR-PLAN-20261106-0001`
+> [AIGC] 本方案由 AI 依据 `SPEC.md v0.4.0-draft`、ADR-002 / ADR-003 与 2026-11-06 联网核实的标准状态生成，**已由用户 2026-11-06 审查通过并基线化**（P-10） · 审计追踪 ID：`RR-PLAN-20261106-0001`
