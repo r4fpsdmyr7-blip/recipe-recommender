@@ -11,11 +11,12 @@
 
 | 项 | 当前 |
 |----|------|
-| 阶段 | **立项完成（Git）** + SDD **Specify / Clarify** 阶段 |
-| 规格 | [`SPEC.md`](SPEC.md) `v0.2.0-draft` |
-| 实现 | ⏸ **尚未开始**（按 SDD 流程，须先关闭 CL-02 再产出 `constitution.md` / `plan.md`） |
+| 阶段 | SDD **M1（Constitution + Plan）已产出，待审查**；Clarify 全部关闭 |
+| 规格 | [`SPEC.md`](SPEC.md) `v0.3.0-draft` |
+| 实现 | ⏸ **尚未开始**（M2 `tasks.md` 之后才进入 Implement） |
+| 实现语言 | **ECMAScript / ISO/IEC 22275:2018**（纯 ESM JavaScript + Node 20 LTS+），见 [ADR-002](docs/decisions.md) |
 | 许可 | **GPL-3.0**（[`LICENSE`](LICENSE) 已随仓库分发） |
-| 代码状态 | 本仓库当前仅含规格、调研与文档，**不包含可运行程序** |
+| 代码状态 | 本仓库当前仅含规格、调研、章程、方案与文档，**不包含可运行程序** |
 
 详见 [`docs/decisions.md`](docs/decisions.md)（决策记录）与 [`docs/competitive-research.md`](docs/competitive-research.md)（竞品调研）。
 
@@ -39,6 +40,20 @@
 | **Markdown-first 核心** | 纯本地规则引擎，离线可用，输出用户指定语言的结构化 Markdown |
 | **CLI** | 生成 / 校验 / 台账查询 / 数据导出与删除 / 验收场景执行 |
 | **MCP Server** | 供支持 MCP 的 AI 客户端调用，默认本地 stdio、不监听网络端口 |
+
+## 实现语言（CL-02 已关闭）
+
+**机械语言（机器码 / ISA 绑定二进制）不采用**：与 CPU 架构绑定、缺少 UTF-8 / JSON / 文件系统等标准抽象、无法满足 GPL-3.0 的 **Corresponding Source**（可修改源码）义务，也使 ATDD 与社区协作不可行。按用户授权改用 **ISO 指定的现行标准语言**：
+
+| 项 | 值 |
+|----|----|
+| 实现语言 | **ECMAScript** — **ISO/IEC 22275:2018**（ECMAScript® Specification Suite，2025 年复核确认现行），语言文本遵循 ECMA-262 |
+| 源码形态 | 纯 ESM JavaScript（`.js`，UTF-8，人类可读可改）；**不含 `.ts` 实现源码** |
+| 运行时 | Node.js 20 LTS+（Windows / macOS / Linux）；核心仅用内置模块 |
+| MCP | 官方 Tier 1 SDK + 本地 stdio，不监听网络端口 |
+| 静态类型 | JSDoc + `tsc --checkJs --noEmit`（可选开发期工具，不改变实现语言） |
+
+> 选型理由、ISO 标准状态核对（含已撤销的 16262:2011 / 23270:2018）、C++ 备选与回退条件见 [`docs/decisions.md` ADR-002](docs/decisions.md) 与 [`plan.md`](plan.md)。规格层只固化语言无关的约束（NFR-015 / P-16 / AC-19）。
 
 ## 输出语言
 
@@ -73,12 +88,14 @@
 ```
 recipe-recommender/
 ├── SPEC.md                        SDD · Specify 阶段规格（唯一权威）
+├── constitution.md                SDD · 不可协商原则 P-01～P-16
+├── plan.md                        SDD · 技术选型 / 架构 / 接口契约（不含实现代码）
 ├── LICENSE                        GPL-3.0 全文
-├── .gitignore                     个人数据 / 缓存 / 构建产物排除
+├── .gitignore / .gitattributes    个人数据 / 缓存 / 构建产物排除；LF 行尾
 ├── README.md                      本文件
 ├── docs/
 │   ├── competitive-research.md    竞品调研（16 条来源）
-│   └── decisions.md               立项决策记录与待确认项
+│   └── decisions.md               决策记录 + ADR-002（实现语言）
 └── examples/profiles/             两份完全虚构的示例档案（ATDD fixtures）
 ```
 
@@ -90,6 +107,8 @@ GitHub 社区规范全套文件（`CONTRIBUTING.md`、`CODE_OF_CONDUCT.md`、`SE
 
 `Constitution → Specify → Plan → Tasks → Implement → Converge`
 
+当前进度：`Constitution` ✅ → `Specify` ✅ → `Clarify` ✅ → **`Plan` ✅（待审查）** → `Tasks` ⏸ → `Implement` ⏸ → `Converge` ⏸。
+
 `SPEC.md` §8 的 Given/When/Then 场景是**实现前就必须存在且为红**的验收契约；任何行为变更先改规格，再改实现。
 
 ## 免责声明
@@ -98,4 +117,4 @@ GitHub 社区规范全套文件（`CONTRIBUTING.md`、`CODE_OF_CONDUCT.md`、`SE
 
 ---
 
-> [AIGC] 立项文件由 AI 依据用户 2026-11-06 决策生成 · 审计追踪 ID：`RR-CHARTER-20261106-0001`
+> [AIGC] 立项文件由 AI 依据用户 2026-11-06 决策与当日联网核实结果生成 · 审计追踪 ID：`RR-CHARTER-20261106-0002` · M1 版本
