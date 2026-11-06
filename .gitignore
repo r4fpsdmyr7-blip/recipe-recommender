@@ -1,0 +1,44 @@
+# ============================================================
+# 个人数据 —— 严禁入库（FR-047 / FR-053 / P-06 / P-14）
+# ============================================================
+profiles/
+private/
+*.private.md
+*.private.json
+*.private.yaml
+*.private.yml
+
+# 来自 ../diet-plan/ 的真实数据一律不得进入本仓库或发布物
+diet-plan/
+_diet-plan/
+**/diet-plan-import/
+
+# 本地缓存、下载暂存与日志
+.cache/
+_downloads/
+*.log
+logs/
+
+# 运行时 / 构建产物（具体条目在 Plan 阶段按实现语言补齐）
+node_modules/
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+dist/
+build/
+target/
+*.egg-info/
+
+# 编辑器与操作系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 本地覆盖配置（可含国籍 / 居住地等个人声明）
+config.local.*
+.env
+.env.*
+!.env.example
