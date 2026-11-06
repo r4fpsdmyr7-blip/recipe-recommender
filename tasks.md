@@ -1,7 +1,7 @@
 # tasks.md · 任务分解（SDD · Tasks 阶段）
 
 > **项目**：recipe-recommender　|　**版本**：`v1.0.0`（基线）　|　**日期**：2026-11-06
-> **状态**：✅ **用户已审查通过并基线化**（2026-11-06，P-10）；**M3 Implement 已开工** — Phase 0 进行中，T-001 产出（`package.json` + `src/` 骨架）已落盘。按 §1 约定，相关 AC 未转绿前任务一律保持 `- [ ]`
+> **状态**：✅ **用户已审查通过并基线化**（2026-11-06，P-10）；**M3 Implement 已开工** — Phase 0 进行中，T-001（`package.json` + `src/` 骨架）与 T-002（`src/io/` 端口 + `tests/fixtures/` 替身 + 11 条端口单测）产出已落盘。按 §1 约定，相关 AC 未转绿前任务一律保持 `- [ ]`
 > **上游**：[`SPEC.md`](SPEC.md) `v0.4.0-draft`、[`constitution.md`](constitution.md) `v1.0.0`、[`plan.md`](plan.md) `v1.0.0`、[`docs/decisions.md`](docs/decisions.md) ADR-002 / ADR-003
 > **下游**：M3 Implement（代码 + 测试）→ M4（社区规范）→ M5 Converge + Release
 
@@ -51,6 +51,8 @@ flowchart LR
 ```
 
 > P0 完成后，P3 的文档类任务（T-040/T-041）可与 P1/P2 并行；P1 的验收结果也是 P3 静态扫描的输入。
+>
+> **测试运行约定（T-002 补充，不改任何 FR / AC / SC 语义）**：`npm test` 采用 `node --test` 自动发现（跨 Node 20 / 22 / 24 与三 OS），只匹配 `**/*.test.js`。unit 测试放 `tests/unit/`；**T-004 的 AC 驱动 MUST NOT 命名为 `*.test.js`**，否则红态验收场景会被 unit job 误跑。T-006 搭 CI 时须按此约定隔离 `unit` 与 `acceptance` 两个 job。
 
 ---
 

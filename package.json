@@ -9,7 +9,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "test": "node --test tests/unit",
+    "test": "node --test",
     "lint": "node scripts/lint.mjs",
     "acceptance": "node scripts/acceptance.mjs --ac all",
     "spec-check": "node scripts/spec-check.mjs"
