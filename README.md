@@ -11,9 +11,9 @@
 
 | 项 | 当前 |
 |----|------|
-| 阶段 | SDD **M1 已审查通过 → M2 `tasks.md` 已产出**；Clarify 全部关闭（CL-01～CL-06、CL-08～CL-11） |
+| 阶段 | SDD **M1 / M2 均已审查通过 → M3 Implement（P0 骨架）已开工**；Clarify 全部关闭（CL-01～CL-06、CL-08～CL-11） |
 | 规格 | [`SPEC.md`](SPEC.md) `v0.4.0-draft` |
-| 实现 | ⏸ **尚未开始**（M3 Implement 才写 `src/` 代码） |
+| 实现 | 🟡 **工程骨架已建立**（T-001：`package.json` + `src/` 目录）；**尚无业务实现代码**，AC 红态基线待 T-004 |
 | 任务分解 | [`tasks.md`](tasks.md)（M2，按 Phase 分组、依赖与红→绿顺序） |
 | 实现语言 | **ECMAScript / ISO/IEC 22275:2018**（纯 ESM JavaScript + Node 20 LTS+），见 [ADR-002](docs/decisions.md)；语言策略见 [ADR-003](docs/decisions.md) |
 | 许可 | **GPL-3.0**（[`LICENSE`](LICENSE) 已随仓库分发） |
@@ -115,7 +115,7 @@ GitHub 社区规范全套文件（`CONTRIBUTING.md`、`CODE_OF_CONDUCT.md`、`SE
 
 `Constitution → Specify → Plan → Tasks → Implement → Converge`
 
-当前进度：`Constitution` ✅ → `Specify` ✅ → `Clarify` ✅ → `Plan` ✅ → **`Tasks` ✅（M2 已产出）** → `Implement` ⏸ → `Converge` ⏸。
+当前进度：`Constitution` ✅ → `Specify` ✅ → `Clarify` ✅ → `Plan` ✅ → `Tasks` ✅ → **`Implement` 🟡（M3 · P0 骨架）** → `Converge` ⏸。
 
 `SPEC.md` §8 的 Given/When/Then 场景是**实现前就必须存在且为红**的验收契约；任何行为变更先改规格，再改实现。
 

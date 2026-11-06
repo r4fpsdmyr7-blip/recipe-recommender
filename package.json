@@ -1,0 +1,17 @@
+{
+  "name": "recipe-recommender",
+  "version": "0.1.0-dev",
+  "private": true,
+  "description": "离线优先、纯本地的食谱推荐器（SDD / ATDD 参考实现）",
+  "license": "GPL-3.0-only",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test tests/unit",
+    "lint": "node scripts/lint.mjs",
+    "acceptance": "node scripts/acceptance.mjs --ac all",
+    "spec-check": "node scripts/spec-check.mjs"
+  }
+}

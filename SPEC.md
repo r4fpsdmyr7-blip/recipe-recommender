@@ -1,10 +1,10 @@
 # SPEC.md · 功能规格说明书（SDD · S / Specify 阶段）
 
 > **项目**：recipe-recommender（立项工作名；正式仓库名 / 归属见 CL-07）　|　**文档版本**：`v0.4.0-draft`
-> **阶段**：**SDD 的 S** —— Spec-Driven Development 的 **Specify（规格）阶段**；Clarify 已全部关闭，M1 已审查通过，M2 `tasks.md` 已产出
-> **生成日期**：2026-11-06　|　**最近更新**：2026-11-06（第四轮：CL-11 语言策略 / 方案 A）　|　**状态**：🟢 **CLARIFY CLOSED · M1 APPROVED · M2 DONE** — 用户已审查通过 M1 并选择方案 A，`tasks.md` 已产出，下一阶段为 M3 Implement
+> **阶段**：**SDD 的 S** —— Spec-Driven Development 的 **Specify（规格）阶段**；Clarify 已全部关闭，M1 已审查通过，M2 `tasks.md` 已基线化，M3 Implement（P0 骨架）已开工
+> **生成日期**：2026-11-06　|　**最近更新**：2026-11-06（第五轮：M3 开工状态同步，**无 FR / AC / SC / P 语义变更**）　|　**状态**：🟢 **CLARIFY CLOSED · M1 APPROVED · M2 APPROVED · M3 IN PROGRESS** — 用户已审查通过 `tasks.md`，P0 骨架开工（T-001 产出已落盘）
 > **上游输入**：`docs/competitive-research.md`（竞品调研）、`../diet-plan/`（**仅方法论参照，其数据不入库、不作示例**）
-> **下游产物**：`constitution.md` ✅ → `plan.md` ✅ → `tasks.md` ✅ → 代码 / 测试 ⏸ → Converge 验证报告 ⏸
+> **下游产物**：`constitution.md` ✅ → `plan.md` ✅ → `tasks.md` ✅ → 代码 / 测试 🟡（M3 · P0 骨架） → Converge 验证报告 ⏸
 >
 > **本轮已确认决策（用户 2026-11-06）**：① 形态 = **Markdown 核心 + CLI + MCP Server**；② 输出语言 = **用户指定**（中文 / 英语 / 法语 / 德语 / 俄语 / 西语 / 甚至拉丁语）；③ 许可证 = **GPL-3.0**；④ **核心规则引擎不依赖 LLM**，LLM 仅默认关闭的可选增强且须可离线降级；⑤ 数据源 = **Unlicense 的 HowToCook 或用户自建菜谱** + **CC0 的 USDA FDC + 人工校验的中国食材子集**；⑥ v1 仅 **GitHub Releases + 源码**，包管理器延后；⑦ 示例数据 = **完全虚构的全球平均男女各一份**，禁止使用 `diet-plan/` 真实数据；⑧ **身体数据纯本地、不上传**，用户数据须符合相关法律；⑨ 膳食指南 / 节气等数据 **默认按用户国籍或居住地解析，亦可由用户显式指定**。
 > **第三轮决策（CL-02，用户 2026-11-06 追问）**：「机械语言」**不予采用**——平台绑定、无 UTF-8 / JSON / 文件系统标准抽象、不满足 GPL-3.0 的 Corresponding Source 义务、ATDD 与社区协作不可行；改采 **ISO/IEC 现行标准化的实现语言**。具体选择（**ECMAScript 规范套件 / ISO/IEC 22275:2018**）与全部理由见 `docs/decisions.md` **ADR-002** 与 `plan.md §2`。**本规格只固化与语言无关的约束**（NFR-015、P-16、AC-19、SC-015），不写技术选型，以遵守 P-04「规格不含实现」。
@@ -813,7 +813,7 @@ Ledger (台账)
 | M0 | **Specify + Clarify（本文件）** ✅ 2026-11-06 | 用户审查通过；`[NEEDS CLARIFICATION]` = 0；CL-07 显式延后 |
 | **M1** | **Constitution + Plan** ✅ 2026-11-06 | ✅ **已审查通过**（用户选择方案 A 并授权 M2）：原则 P-01～P-16 定稿；实现语言按 CL-02（ADR-002）与 CL-11（ADR-003）决策；架构、接口与数据模型定稿 |
 | **M2** | **Tasks** ✅ 2026-11-06 | ✅ **已产出 `tasks.md`**：有序任务清单，每任务关联 FR / AC / SC，标注依赖、并行标记与红→绿顺序；不含实现代码 |
-| M3 | Implement（P1） | US-01～US-05 对应 FR 通过全部 AC，CI 绿 |
+| **M3** | **Implement（P0 骨架 → P1）** 🟡 2026-11-06 开工 | T-001 `package.json` + `src/` 骨架已落盘；US-01～US-05 对应 FR 须通过全部 AC、CI 绿方可出口 |
 | M4 | Implement（P2/P3）+ 社区规范 | 全部 FR 通过；§10 必需文件齐备 |
 | M5 | Converge | SC-001～SC-015 全部达成，追溯矩阵核验通过，可发布 |
 
@@ -827,4 +827,4 @@ Ledger (台账)
 
 ---
 
-> [AIGC] 本规格由 AI 依据 2026-11-06 联网查证的 SDD/ATDD 方法论、竞品调研与 ISO/IEC / GB 标准状态生成 · 审计追踪 ID：`RR-SPEC-20261106-0001` · 版本 `v0.4.0-draft`（第四轮：CL-11 语言策略 / 方案 A） · 状态：CLARIFY CLOSED，M1 APPROVED，M2 DONE
+> [AIGC] 本规格由 AI 依据 2026-11-06 联网查证的 SDD/ATDD 方法论、竞品调研与 ISO/IEC / GB 标准状态生成 · 审计追踪 ID：`RR-SPEC-20261106-0001` · 版本 `v0.4.0-draft`（第五轮：M3 开工状态同步，规格语义未变） · 状态：CLARIFY CLOSED，M1 APPROVED，M2 APPROVED，M3 IN PROGRESS (P0)

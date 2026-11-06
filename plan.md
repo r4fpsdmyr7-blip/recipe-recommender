@@ -333,7 +333,7 @@ flowchart LR
 | **M0′ / M0** ✅ | Git 立项、`SPEC.md v0.4.0-draft`、ADR-002 / ADR-003、澄清全关闭 | 已完成，2026-11-06 |
 | **M1** ✅ 已审查通过 | `constitution.md`、`plan.md`（本文件） | 用户审查通过并选方案 A（P-09 / P-10，2026-11-06） |
 | **M2** ✅ 已产出 | `tasks.md`：有序任务，每条关联 FR / AC / SC，标注依赖、并行与红→绿顺序 | M1 审查通过；无实现代码 |
-| **M3** ⏸ | 核心域 + CLI + P1 用户故事实现 + AC-01～12 转绿 | US-01～05 对应 FR 通过、CI 绿 |
+| **M3** 🟡 已开工 | P0 骨架（T-001 `package.json` + `src/` 目录）已落盘；后续核心域 + CLI + P1 用户故事实现 + AC-01～12 转绿 | US-01～05 对应 FR 通过、CI 绿 |
 | **M4** ⏸ | MCP Server、i18n 七语言、区域策略、社区规范全套、PRIVACY / SECURITY / THIRD_PARTY_NOTICES | 全部 FR 通过、AC-13～19 转绿、§10 必需文件齐备 |
 | **M5** ⏸ | Converge 报告 + Release 归档 + 校验和 | SC-001～SC-015 全部达成、追溯矩阵核验通过 |
 

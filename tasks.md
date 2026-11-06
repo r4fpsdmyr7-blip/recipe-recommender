@@ -1,7 +1,7 @@
 # tasks.md · 任务分解（SDD · Tasks 阶段）
 
-> **项目**：recipe-recommender　|　**版本**：`v1.0.0-draft`　|　**日期**：2026-11-06
-> **状态**：✅ **已产出（M2）**，用户已授权推进；**M3 开工前须人工审查本清单**（P-10），审查通过后转 `v1.0.0`
+> **项目**：recipe-recommender　|　**版本**：`v1.0.0`（基线）　|　**日期**：2026-11-06
+> **状态**：✅ **用户已审查通过并基线化**（2026-11-06，P-10）；**M3 Implement 已开工** — Phase 0 进行中，T-001 产出（`package.json` + `src/` 骨架）已落盘。按 §1 约定，相关 AC 未转绿前任务一律保持 `- [ ]`
 > **上游**：[`SPEC.md`](SPEC.md) `v0.4.0-draft`、[`constitution.md`](constitution.md) `v1.0.0`、[`plan.md`](plan.md) `v1.0.0`、[`docs/decisions.md`](docs/decisions.md) ADR-002 / ADR-003
 > **下游**：M3 Implement（代码 + 测试）→ M4（社区规范）→ M5 Converge + Release
 
