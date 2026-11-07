@@ -1,0 +1,152 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# [AIGC] T-006 CI 骨架 · 审计追踪 ID: RR-T006-20261107-0001 · 待人工审查（P-10）
+#
+# P0（M3 · Phase 0）骨架。AC-01～19 全红是预期状态：CI 绿只表示「骨架可运行 +
+# 红态基线完整」，不代表验收通过（P-02 / AC-14 / tasks.md §5）。
+# 严禁为了让 CI 变绿而删除、跳过或弱化任何 AC 场景（P-09 / RK-03）。
+# 零第三方依赖：不要 npm install / npm ci（无 lock 文件，也不需要）。
+#
+# 本骨架只启用 T-006 要求的 6 个 job。plan.md §11 的 license-scan /
+# community-files / polyglot-gate / encoding-check 由 T-042～T-045 补齐；
+# unit 覆盖率 ≥80%、acceptance 全绿、lint / tsc --checkJs --noEmit /
+# 语言包键集等完整门禁由 T-019 / T-022 / T-031 后启用，当前不假绿。
+# unit 与 acceptance 是两个独立 job（tasks.md §2 命名护栏）。
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  spec-consistency:
+    name: spec-consistency (FR-038 / SC-001)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: 规格一致性
+        shell: bash
+        run: npm run spec-check
+
+  unit:
+    name: unit (T-002 端口单测)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: 单元测试
+        shell: bash
+        run: npm test
+    # 覆盖率 ≥80% 与核心域单测由 P1 / T-022 启用，现在强制会造成假绿
+
+  acceptance:
+    name: acceptance (19/19 RED 基线)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: AC 红态基线（全红为通过条件）
+        shell: bash
+        run: npm run acceptance
+    # 驱动实时比对 SPEC.md §8，且 P0 默认拒绝 GREEN。
+    # 不加 --allow-green；不得删场景换绿。全绿门禁由 T-022 启用。
+
+  lint-typecheck:
+    name: lint-typecheck (骨架静态检查)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: SPDX 头与测试命名护栏
+        shell: bash
+        run: |
+          node --input-type=module <<'JS'
+          import { readdirSync, readFileSync } from 'node:fs';
+          import { join } from 'node:path';
+          const walk = (d) => readdirSync(d, { withFileTypes: true }).flatMap((e) => {
+            if (e.name === '.git' || e.name === 'node_modules') return [];
+            const p = join(d, e.name);
+            return e.isDirectory() ? walk(p) : [p];
+          });
+          const all = walk('.').map((f) => f.replace(/\\/g, '/'));
+          const src = all.filter((f) => /\.(js|mjs)$/.test(f));
+          const noSpdx = src.filter((f) => !readFileSync(f, 'utf8').startsWith('// SPDX-License-Identifier: GPL-3.0-only'));
+          if (noSpdx.length) { console.error('缺 SPDX 头: ' + noSpdx.join(', ')); process.exit(1); }
+          const badTest = all.filter((f) => f.startsWith('tests/acceptance/') && /\.test\.(js|mjs)$/.test(f));
+          if (badTest.length) { console.error('验收驱动不得命名 *.test.js: ' + badTest.join(', ')); process.exit(1); }
+          console.log('lint-typecheck 骨架 PASS: ' + src.length + ' 个源码 SPDX 齐备，验收驱动命名合规');
+          console.log('注: npm run lint / tsc --checkJs --noEmit / 语言包键集待 T-019 / T-031，当前不构成完整 lint 门禁');
+          JS
+
+  privacy-scan:
+    name: privacy-scan (P-06 / P-14 / P-15)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: 真实数据 / diet-plan / 发布字段扫描
+        shell: bash
+        run: |
+          node --input-type=module <<'JS'
+          import { readdirSync, readFileSync, existsSync } from 'node:fs';
+          import { join } from 'node:path';
+          const TOKENS = /73\.45|1598|23\.3%|52\.6%|53\.49|2\.86|20\.1%/;
+          const walk = (d) => readdirSync(d, { withFileTypes: true }).flatMap((e) => {
+            if (e.name === '.git' || e.name === 'node_modules') return [];
+            const p = join(d, e.name);
+            return e.isDirectory() ? walk(p) : [p];
+          });
+          // 本 workflow 自身含令牌定义（检测规则），排除以免扫描器自命中；它不含任何个人数据。
+          const SELF = '.github/workflows/ci.yml';
+          const all = walk('.').filter((f) => f.replace(/\\/g, '/') !== SELF);
+          const hits = all.filter((f) => { try { return TOKENS.test(readFileSync(f, 'utf8')); } catch { return false; } });
+          if (hits.length) { console.error('真实身体数据令牌命中: ' + hits.join(', ')); process.exit(1); }
+          if (existsSync('diet-plan') || existsSync('_diet-plan') || existsSync('diet-plan-import')) {
+            console.error('仓库内出现 diet-plan 数据目录'); process.exit(1);
+          }
+          const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
+          for (const k of ['publishConfig', 'files', 'bin', 'prepack', 'postpack']) {
+            if (k in pkg || k in (pkg.scripts || {})) { console.error('禁止的发布字段: ' + k); process.exit(1); }
+          }
+          if (pkg.private !== true || pkg.license !== 'GPL-3.0-only') {
+            console.error('private / license 不合规 (FR-052 / AC-18)'); process.exit(1);
+          }
+          console.log('privacy-scan PASS: ' + all.length + ' 个文件，无真实数据令牌 / diet-plan 目录 / 发布字段（已排除扫描器自身 ' + SELF + '）');
+          console.log('注: 网络出口 / 日志脱敏的完整静态扫描由 T-042 补齐');
+          JS
+
+  matrix:
+    name: matrix (${{ matrix.os }} / Node ${{ matrix.node }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node: [20, 22, 24]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: 同一组 AC 跨平台一致性（P0：全红）
+        shell: bash
+        run: |
+          npm test
+          npm run acceptance
+          npm run spec-check

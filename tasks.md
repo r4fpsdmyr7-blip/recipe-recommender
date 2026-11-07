@@ -1,7 +1,7 @@
 # tasks.md · 任务分解（SDD · Tasks 阶段）
 
 > **项目**：recipe-recommender　|　**版本**：`v1.0.0`（基线）　|　**日期**：2026-11-06
-> **状态**：✅ **用户已审查通过并基线化**（2026-11-06，P-10）；**M3 Implement 已开工** — Phase 0 进行中，T-001（`package.json` + `src/` 骨架）与 T-002（`src/io/` 端口 + `tests/fixtures/` 替身 + 11 条端口单测）产出已落盘。按 §1 约定，相关 AC 未转绿前任务一律保持 `- [ ]`
+> **状态**：✅ **用户已审查通过并基线化**（2026-11-06，P-10）；**M3 Implement · Phase 1 进行中** — P0（T-001～T-006）已完成并通过出口门禁（CI 骨架可运行、AC-01～19 全红）；P1 的 T-010（`src/core/profile/` · `loadProfile`）已完成，现推进 T-011（`computeRx` 与可插拔指南适配器）。P0 的「CI 绿」仅表示骨架可运行与红态基线完整，**不代表验收通过**。按 §1 约定，相关 AC 未转绿前任务一律保持 `- [ ]`
 > **上游**：[`SPEC.md`](SPEC.md) `v0.4.0-draft`、[`constitution.md`](constitution.md) `v1.0.0`、[`plan.md`](plan.md) `v1.0.0`、[`docs/decisions.md`](docs/decisions.md) ADR-002 / ADR-003
 > **下游**：M3 Implement（代码 + 测试）→ M4（社区规范）→ M5 Converge + Release
 

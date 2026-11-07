@@ -1,0 +1,5 @@
+# AC-03 · 快照位（RED 基线）
+status: RED
+registered: 2026-11-07
+output: (none - 实现尚未开工，无可比对输出)
+audit: RR-T004-20261107-0001
