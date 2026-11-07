@@ -11,13 +11,14 @@
 
 | 项 | 当前 |
 |----|------|
-| 阶段 | SDD **M1 / M2 均已审查通过 → M3 Implement（P0 骨架）已开工**；Clarify 全部关闭（CL-01～CL-06、CL-08～CL-11） |
+| 阶段 | SDD **M1 / M2 均已审查通过 → M3 Implement（P0 骨架）进行中**；Clarify 全部关闭（CL-01～CL-11） |
 | 规格 | [`SPEC.md`](SPEC.md) `v0.4.0-draft` |
-| 实现 | 🟡 **工程骨架已建立**（T-001：`package.json` + `src/` 目录）；**尚无业务实现代码**，AC 红态基线待 T-004 |
-| 任务分解 | [`tasks.md`](tasks.md)（M2，按 Phase 分组、依赖与红→绿顺序） |
+| 远端 | **<https://github.com/JohnSmithfan/recipe-recommender>**（`main`，PUBLIC；2026-11-07 建立并推送） |
+| 实现 | 🟡 T-001 工程骨架 + T-002 `src/io/` 端口与 11 条单测已落盘；**尚无 CLI / MCP / 业务域实现**，AC 红态基线待 T-004 |
+| 任务分解 | [`tasks.md`](tasks.md)（M2 已基线化 `v1.0.0`，按 Phase 分组、依赖与红→绿顺序） |
 | 实现语言 | **ECMAScript / ISO/IEC 22275:2018**（纯 ESM JavaScript + Node 20 LTS+），见 [ADR-002](docs/decisions.md)；语言策略见 [ADR-003](docs/decisions.md) |
 | 许可 | **GPL-3.0**（[`LICENSE`](LICENSE) 已随仓库分发） |
-| 代码状态 | 本仓库当前仅含规格、调研、章程、方案与文档，**不包含可运行程序** |
+| 代码状态 | **开发中**：规格 / 方案 / 端口层 / 单元测试齐备，`npm test` 11/11 通过；**尚无面向用户的可运行 CLI 或 MCP 入口** |
 
 详见 [`docs/decisions.md`](docs/decisions.md)（决策记录）与 [`docs/competitive-research.md`](docs/competitive-research.md)（竞品调研）。
 

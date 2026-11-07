@@ -11,8 +11,8 @@
 |----|------|
 | 版本控制 | Git，默认分支 `main`，本地仓库 `recipe-recommender/` |
 | 首次提交内容 | `SPEC.md`、`docs/competitive-research.md`、`docs/decisions.md`、`LICENSE`、`.gitignore`、`README.md`、`examples/profiles/` |
-| 阶段推进 | 立项（M0′）✅ → Specify + Clarify（M0）✅ → Constitution + Plan（M1）✅ **已审查通过** → **Tasks（M2）✅ 已产出 `tasks.md`**（均 2026-11-06）；**未写实现代码、未生成 M4 社区规范文件** |
-| 远程仓库 | 尚未创建 / 推送；正式 GitHub 仓库名与归属账号见 D-07 |
+| 阶段推进 | 立项（M0′）✅ → Specify + Clarify（M0）✅ → Constitution + Plan（M1）✅ **已审查通过** → **Tasks（M2）✅ 已审查通过并基线化** → **Implement（M3 · P0）🟡 已开工**（T-001 / T-002 已落盘）；**未生成 M4 社区规范文件、未发布 Release** |
+| 远程仓库 | ✅ **2026-11-07 建立并推送**：<https://github.com/JohnSmithfan/recipe-recommender>（`main`，PUBLIC，GPL-3.0）；`origin` 已配置。CL-07 由此关闭（见 D-07） |
 
 ---
 
@@ -26,14 +26,14 @@
 | **D-04 / CL-05** | 菜谱 = **Unlicense 的 HowToCook 或用户自建**；营养 = **CC0 的 USDA FDC + 人工校验中国食材子集** | FR-031/032、`THIRD_PARTY_NOTICES.md`（M4） |
 | **D-05 / CL-06** | 输出语言 = **用户指定**；v1 内置 `zh-Hans` / `en` / `fr` / `de` / `es` / `ru` / **`la`** | §6.9、FR-040～044、AC-15、SC-011、`locales/` |
 | **D-06 / CL-08** | v1 **仅 GitHub Releases + 源码**；包管理器发布延后 | FR-039/052、§10、SC-014 |
-| **D-07 / CL-07** | 立项工作名 `recipe-recommender`；正式仓库名 / 归属账号**延后至发布前确认**，不阻塞 Plan | README、CITATION.cff、release workflow |
+| **D-07 / CL-07** | 立项工作名 `recipe-recommender`；正式仓库名 / 归属账号**延后至发布前确认**，不阻塞 Plan。✅ **2026-11-07 已确认并关闭**：`JohnSmithfan/recipe-recommender`（PUBLIC） | README、CITATION.cff、release workflow |
 | **D-08 / CL-09** | **禁止**把 `../diet-plan/` 数据作为示例或内置数据，仅复用方法论；示例必须为**完全虚构的全球平均男女各一份** | FR-034/035/053、P-14、AC-18、`examples/profiles/` |
 | **D-09 / CL-10** | 身体数据**纯本地、不上传**，且须符合适用法律（PIPL / GDPR 等）；新增 `PRIVACY.md` 为必需 | FR-047～050、§6.10、§10、P-06/15、AC-17 |
 | **D-10 / 新增** | 膳食指南 / 节气等数据**默认按用户国籍或居住地解析**，亦可由用户显式指定，覆盖优先 | FR-003/045/046、AC-16、SC-012 |
 | **D-11 / CL-02** | **机械语言否决 → 采用现行 ISO/IEC 标准化实现语言**；具体为 ECMAScript 规范套件 / **ISO/IEC 22275:2018**。详见 **ADR-002（§3）** | NFR-015、P-16、AC-19、SC-015、`plan.md §2` |
 | **D-12 / CL-11** | **语言策略选方案 A**：维持**单一**主实现语言；多语言只落在语言包（数据层）与可替换渲染器（渲染层）；第二实现语言须过 G-01～G-06 门禁且 v1 默认关闭；LLM 仅用于开发期生成候选译文。详见 **ADR-003（§4）** | FR-041 补注、FR-043、AC-15、A-10 / E-18、`plan.md §11`、`constitution.md §5` |
 
-> 截至 2026-11-06：`[NEEDS CLARIFICATION]` **= 0**；CL-01～CL-06、CL-08～CL-11 全部关闭，CL-07 显式延后且不阻塞。M1 已由用户审查通过（选择方案 A）。
+> 截至 2026-11-07：`[NEEDS CLARIFICATION]` **= 0**；CL-01～CL-11 **全部关闭**（CL-07 于 2026-11-07 建立远端仓库时确认）。M1 已由用户审查通过（选择方案 A），M2 已基线化，M3 已开工。
 
 ---
 
@@ -296,7 +296,7 @@
 | **M3 Implement（P0）** | 🟡 **已开工**（2026-11-06）：用户审查通过 `tasks.md` 并基线化至 `v1.0.0`；T-001 产出 `package.json` + `src/` 骨架。尚无业务实现代码，AC 红态基线待 T-004 |
 | M4～M5 社区规范 / Converge | ⏸ 未开始 |
 
-> **下一门禁**：Phase 0 出口 **T-006**（CI 骨架可运行且 AC-01～19 全部为红）；在此之前不得开启任何业务实现任务。任何行为变更仍须先改 `SPEC.md`（P-01），AC 未转绿不得勾选 `- [x]`。CL-07 正式仓库名 / 归属账号仍延后至发布前确认（R-01）。
+> **下一门禁**：Phase 0 出口 **T-006**（CI 骨架可运行且 AC-01～19 全部为红）；在此之前不得开启任何业务实现任务。任何行为变更仍须先改 `SPEC.md`（P-01），AC 未转绿不得勾选 `- [x]`。CL-07 已于 2026-11-07 确认（`JohnSmithfan/recipe-recommender`），不再是开放项。
 
 ---
 

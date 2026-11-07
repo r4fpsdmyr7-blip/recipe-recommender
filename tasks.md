@@ -230,7 +230,7 @@ flowchart LR
 - ❌ 不写任何 `src/` 实现代码、测试实现、语言包内容或社区规范文件（M3/M4）。
 - ❌ 不新增、不改写任何 FR / AC / SC / P 编号与业务语义；本清单只做分解与映射。
 - ❌ 不引入第二实现语言（ADR-003 G-06 默认拒绝），不改变 `plan.md §2` 的技术选型。
-- ❌ 不创建 GitHub 远程仓库、不推送、不发布 Release、不运行 `npm publish`。
+- ❌ 不创建 GitHub 远程仓库、不推送、不发布 Release、不运行 `npm publish`。（**M2 阶段性约束**；2026-11-07 用户授权后已建立并推送远端仓库，**Release 与包管理器发布仍禁止**）
 - ❌ 不把 `../diet-plan/` 的任何真实数据带入本仓库或任务产出物。
 - ❌ 不让 CI 通过删除 / 跳过验收场景变绿（P-02 / P-09）。
 
@@ -251,4 +251,4 @@ flowchart LR
 
 ---
 
-> [AIGC] 本任务清单由 AI 依据 `SPEC.md v0.4.0-draft`、`constitution.md v1.0.0`、`plan.md v1.0.0` 与 ADR-002 / ADR-003 生成，**M3 开工前须用户人工审查**（P-10） · 审计追踪 ID：`RR-TASKS-20261106-0001` · 版本 `v1.0.0-draft`
+> [AIGC] 本任务清单由 AI 依据 `SPEC.md v0.4.0-draft`、`constitution.md v1.0.0`、`plan.md v1.0.0` 与 ADR-002 / ADR-003 生成，**已于 2026-11-06 经用户审查通过并基线化**（P-10） · 审计追踪 ID：`RR-TASKS-20261106-0001` · 版本 `v1.0.0`（基线）
