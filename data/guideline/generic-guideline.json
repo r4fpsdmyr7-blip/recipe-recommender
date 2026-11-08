@@ -1,0 +1,25 @@
+{
+  "id": "generic-guideline",
+  "version": "0.1.0",
+  "source": "neutral-baseline",
+  "notice_key": "guideline.generic.neutral_baseline",
+  "coefficients": {
+    "energy_factor": [1.1, 1.15],
+    "protein_g_per_kg": [1.4, 1.5],
+    "fat_energy_ratio": [0.25, 0.3],
+    "carb_energy_ratio": [0.45, 0.55],
+    "fiber_g": [25, 30],
+    "water_ml_per_kg": [30, 35]
+  },
+  "protein_floor_g_per_kg": 1.2,
+  "targets": {
+    "salt_g": [0, 4.5],
+    "oil_g": [25, 30],
+    "added_sugar_g": [0, 20]
+  },
+  "limits": {
+    "salt_g_max_exclusive": 5,
+    "oil_g": [25, 30],
+    "added_sugar_g_max_exclusive": 25
+  }
+}

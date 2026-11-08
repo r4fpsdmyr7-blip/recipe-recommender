@@ -61,6 +61,17 @@ export function ioError(code, detail, cause) {
  */
 
 /**
+ * 日志端口（T-020 / FR-041 / FR-049 / NFR-002）。
+ * 值只接受 Canonical ID 与稳定码，行内零时间戳；落地仅经注入的 `sink`，缺省不写任何地方。
+ * @typedef {object} LogPort
+ * @property {string} level 当前级别（info / warn / error）
+ * @property {((line: string) => void) | undefined} sink 唯一落地通道
+ * @property {(entry: unknown) => string} record 记录一条事件，返回最终写入的行
+ * @property {() => string[]} lines 已记录的行（按记录顺序）
+ * @property {() => ReadonlyArray<Readonly<Record<string, string>>>} entries 结构化条目（冻结）
+ */
+
+/**
  * @typedef {object} NetResponse
  * @property {string} url 实际请求的 URL
  * @property {number} status HTTP 状态码

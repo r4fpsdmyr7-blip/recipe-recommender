@@ -5,3 +5,4 @@ export { ERR, ioError } from './ports.js';
 export { DEFAULT_TIME_ZONE, createSystemClock, todayInZone, isoInZone } from './clock.js';
 export { createLocalFsPort } from './fs.js';
 export { createNetPort, assertSafeCalendarUrl } from './net.js';
+export { LOG_ERROR, LogError, LOG_KEYS, LOG_LEVEL, createLogPort } from './log.js';
