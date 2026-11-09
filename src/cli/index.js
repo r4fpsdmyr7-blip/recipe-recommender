@@ -2,7 +2,7 @@
 /** CLI 适配层统一出口（plan.md §4 / §6.2 / §9 · tasks.md T-019 / T-020）。 */
 
 export { CLI_ERROR, CliError, cliIssue } from './errors.js';
-export { COMMANDS, COMMAND_OPTIONS, FLAG_KEYS, isIsoDate, parseArgs } from './args.js';
+export { COMMANDS, P2_COMMANDS, ALL_COMMANDS, COMMAND_OPTIONS, FLAG_KEYS, isIsoDate, parseArgs } from './args.js';
 export {
   CONFIG_PATH,
   ENV_KEYS,
@@ -30,4 +30,5 @@ export {
 } from './inventory.js';
 export { runExportData } from './export-data.js';
 export { runDeleteData } from './delete-data.js';
+export { runServeMcp } from './serve-mcp.js';
 export { EXIT, runCli } from './run.js';

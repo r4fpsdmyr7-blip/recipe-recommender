@@ -20,6 +20,7 @@ import { runLedger } from './ledger.js';
 import { runAcceptance } from './acceptance.js';
 import { runExportData } from './export-data.js';
 import { runDeleteData } from './delete-data.js';
+import { runServeMcp } from './serve-mcp.js';
 import { errorCode, issueLines, line } from './shared.js';
 
 /** 退出码。 */
@@ -33,6 +34,8 @@ const HANDLERS = Object.freeze({
   acceptance: runAcceptance,
   'export-data': runExportData,
   'delete-data': runDeleteData,
+  // T-030：stdio 命令；协议帧直接写入注入的 mcpOutput，返回零条 key=value 行。
+  'serve-mcp': runServeMcp,
 });
 
 /** @param {any} error */
@@ -65,6 +68,7 @@ function failure(command, error, exit) {
  * @param {unknown} argv 不含 node / 脚本路径的参数数组
  * @param {Record<string, any>} [deps] 注入端口：fsPort / clock / env / netPort / logPort /
  *   resolveLocalePolicy / loadLanguagePack / intlFormatter / acceptanceRunner
+ *   （T-030 追加：mcpInput / mcpOutput / mcpPorts）
  * @returns {Promise<{exit: number, lines: string[]}>}
  */
 export async function runCli(argv, deps = {}) {

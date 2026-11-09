@@ -131,3 +131,16 @@
 - 年为单位的**联网刷新**入口不在 T-019 命令集内：`rr plan` 只读缓存（`FR-012` 下层只读）。
 - 语言包内容（`locales/`）与区域映射表（`data/region/`）分别归 T-031 / T-033，本目录**不含任何译文或映射数据**。
 - 导出不加密、不打包：`FR-049` 只要求「用户能一次性拿走」，格式可读优先；传输与备份不属本任务。
+
+---
+
+## 8. T-030 追加定案（`rr serve-mcp`）
+
+> 本节由 T-030 追加；上文 §1～§7 是 T-019 / T-020 的 P1 定案，保留不改作为历史取证。
+
+- `src/cli/args.js` 的 `COMMANDS` 保持**七条 P1 快照一字不改**；新增 `P2_COMMANDS`（`['serve-mcp']`）与 `ALL_COMMANDS`（解析白名单 = P1 ∪ P2）。`cli.test.js` / `privacy.test.js` / `reviews/agent-p1.mjs` 的 P1 判定因此既未被改写、也未被放宽；`locales` / `feedback` 仍是越界命令。
+- `src/cli/serve-mcp.js` 是唯一新增处理器，只做端口校验与桥接，不生成计划 / 台账 / 译文。MCP 实现全部在 `src/mcp/`（见该目录 README）。
+- `mcpInput` / `mcpOutput` 未注入即 `CliError(ERR_CLI_PORT)` → `runCli` exit `3`，与 T-019 端口缺失口径一致；`mcpPorts` 可缺省，此时四个 `rr_` 工具各自返回 `ERR_MCP_PORT`。
+- **输出契约唯一例外**：MCP 帧直接写注入流，处理器返回零条 `key=value` 行、`status=` 收尾对该命令不适用，否则会污染 stdio 帧流。此例外由 `tests/unit/mcp.test.js` 固定断言。
+- 原生异常文本在桥接层折叠为稳定码，不回传客户端（FR-048）。
+- 本追加**不改任何 P0 基线、不改 `ac-*.md` 状态、不改 `tasks.md` 勾选项，也不把 P1 门禁 `BLOCKED` 改写为通过**。
